@@ -114,7 +114,7 @@ def display_inventory(inventory):
 
 def execute_action_AI(action, attacker, defender, round_counter):
     if action == 1:
-        return w_PVP.use_spell(attacker, defender, 'Spell_1', 'Damage_1', 'MP_1')
+        return w_PVP.use_spell(attacker, defender, 'Spell_1', 'Damage_1', 'MP_1')  # makes the Ai always able to use a spell
     elif action == 2:
         return w_PVP.use_spell(attacker, defender, 'Spell_2', 'Damage_2', 'MP_2')
     elif action == 3 and round_counter >= int(attacker['Rounds_Ult']):
@@ -125,15 +125,17 @@ def execute_action_AI(action, attacker, defender, round_counter):
         attacker['dodge'] = True
         print(f"{attacker['Character']} is preparing to dodge the next attack.")
         return True
-    else:
+    elif action == 3 and round_counter < int(attacker['Rounds_Ult']):
+        return w_PVP.use_spell(attacker, defender, 'Spell_1', 'Damage_1', 'MP_1')
+    elif action == 5:
         trash_talk = random.randint(1,5)
-        if trash_talk == 1 or 2:
+        if trash_talk == [1 or 2]:
             w_PVP.trash_talk(attacker,defender)
-        else:
-            random_spell = random.randint(1,2)
+        elif trash_talk ==[3 or 4 or 5]:
+            random_spell = random.randint(1, 2)
             if random_spell == 1:
                 return w_PVP.use_spell(attacker, defender, 'Spell_1', 'Damage_1', 'MP_1')
-            else:
+            elif random_spell == 2:
                 return w_PVP.use_spell(attacker, defender, 'Spell_2', 'Damage_2', 'MP_2')
 
 
@@ -198,12 +200,12 @@ def remove_item(inventory, player_data):
 # Select AI opponent difficulty
 def ai_opponent_difficulty():
     difficulties = [
-        "Easy (Stats * 0.8)",
-        "Medium (Stats * 1.1)",
-        "Hard (Stats * 1.5)",
-        "Very Hard (Stats * 2.0)",
-        "Impossible (Stats * 3.0)",
-        "Asian (Stats * 5.0)"
+        "Easy (Stats * 1.0)",
+        "Medium (Stats * 1.5)",
+        "Hard (Stats * 2.0)",
+        "Very Hard (Stats * 3.0)",
+        "Impossible (Stats * 5.0)",
+        "Asian (Stats * 10.0)"
     ]
     print("Select AI Difficulty:")
     for i, difficulty in enumerate(difficulties, 1):
@@ -221,17 +223,23 @@ def ai_opponent_difficulty():
 
 # Modify stats based on difficulty
 def modify_stats(character, difficulty):
-    multipliers = {1: 0.8, 2: 1.1, 3: 1.5, 4: 2.0, 5: 3.0, 6: 5.0}
+    multipliers = {1: 1.0, 2: 1.5, 3: 2.0, 4: 3.0, 5: 5.0, 6: 10.0}
     multiplier = multipliers.get(difficulty, 1.0)
     modified_character = character.copy()
     modified_character['max_HP'] = int(character['HP'])
     modified_character['max_MP'] = int(character['MP'])
     stats_to_modify = ['HP', 'MP', 'Damage_1', 'Damage_2', 'Damage_Ult']
-
-    for stat in stats_to_modify:
-        if stat in character:
-            modified_character[stat] = int(character[stat]) * multiplier
-    return modified_character
+    if multiplier != 1:
+        for stat in stats_to_modify:
+            if stat in character:
+                modified_character[stat] = int(character[stat]) * multiplier
+            print(f"Modified {stat} from {int(character[stat])} to {int(character[stat]) * multiplier}")
+        return modified_character
+    else:
+        for stat in stats_to_modify:
+            if stat in character:
+                modified_character[stat] = int(character[stat]) * multiplier
+        return modified_character
 def choose_character(characters, taken_characters, player_type):
     while True:
         print(f"\n{player_type}, choose your character:")
@@ -272,15 +280,17 @@ def apply_inventory_effects(character, item):
                 value = int(value)
 
             if stat == 'ATK':
+                print(f"Old ATK: Damage_1 = {character['Damage_1']}, Damage_2 = {character['Damage_2']}, Damage_Ult = {character['Damage_Ult']}")
                 character['Damage_1'] = str(int(float(character['Damage_1']) * (1 + value)))
                 character['Damage_2'] = str(int(float(character['Damage_2']) * (1 + value)))
                 character['Damage_Ult'] = str(int(float(character['Damage_Ult']) * (1 + value)))
-                print(
-                    f"Applied ATK effect: Damage_1 = {character['Damage_1']}, Damage_2 = {character['Damage_2']}, Damage_Ult = {character['Damage_Ult']}")
+                print(f"Applied ATK effect: Damage_1 = {character['Damage_1']}, Damage_2 = {character['Damage_2']}, Damage_Ult = {character['Damage_Ult']}")
             elif stat == 'SHIELD':
+                print(f"Old Shield: HP = {character['HP']}")
                 character['HP'] = str(int(float(character['HP']) * (1 + value)))
                 print(f"Applied SHIELD effect: HP = {character['HP']}")
             elif stat == 'HP':
+                print(f"Old HP = {character['HP']}")
                 character['HP'] = str(int(float(character['HP']) + value))
                 print(f"Applied HP effect: HP = {character['HP']}")
             elif stat == 'MP':
@@ -351,7 +361,7 @@ def battle(player_data, inventory):
     w_PVP.display_characters_less_detailed(characters)
     player_character = w_PVP.select_character(characters, 'Human')
     ai_difficulty, ai_title = ai_opponent_difficulty()
-    reward = ai_difficulty * random.randint(1,4)
+    reward = ai_difficulty * random.randint(3,20)
     used_categories = set()
     if input("Choose AI or Not?(Y)").strip().upper() == 'Y':
         ai_character = w_PVP.select_character(characters, "AI")
@@ -372,9 +382,10 @@ def battle(player_data, inventory):
     initialize_character(ai_character)
 
     ai_character = modify_stats(ai_character, ai_difficulty)
+    ai_character['MP_1'] = 1
     print(f"You have chosen Mode {ai_difficulty}: {ai_title} Mode")
     for _ in range(10):  # underscore just means there is nothing like an "i"
-        if input("Do you want to use an item(y): ").strip().lower() != 'y':
+        if input(f"{'\033[04m'}{'\033[0;31m'}Do you want to use an item({'\033[0;32m'}y): {'\033[0m'}").strip().lower() != 'y':
             break
         use_item(player_character, inventory, used_categories)
 
@@ -405,9 +416,9 @@ def battle(player_data, inventory):
         print(f"\nAI: {ai_character['Character']}'s turn")
         sleep(0.1)
         w_PVP.print_player_status(ai_character)
-        ai_action = random.randint(1, 4)
+        ai_action = random.randint(3, 3)
         w_PVP.apply_elemental_buff(ai_character, player_character, strenghts, weakness)
-        w_PVP.execute_action(ai_action, ai_character, player_character, round_counter)
+        execute_action_AI(ai_action, ai_character, player_character, round_counter)
 
         if int(player_character['HP']) <= 0:
             print(f"\n{player_character['Character']} is defeated! You lose!")

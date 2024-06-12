@@ -20,9 +20,6 @@ player_points = 0
 dealer_points = 0
 
 def initialize_deck():
-    """
-    Initialize a deck of cards with 4 suits and 13 ranks each.
-    """
     global deck
     suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
     ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
@@ -30,18 +27,12 @@ def initialize_deck():
 
 
 def deal_card(hand):
-    """
-    Deal a card from the deck and add it to the given hand.
-    """
     global deck
     card = random.choice(deck)
     hand.append(card)
     deck.remove(card)
 
 def calculate_points(hand):
-    """
-    Calculate the total points of a hand.
-    """
     points = 0
     ace_count = 0
     for card in hand:
@@ -75,9 +66,6 @@ def check_blackjack(hand):
     return len(hand) == 2 and calculate_points(hand) == 21
 
 def player_turn():
-    """
-    Player's turn in the Blackjack game.
-    """
     global player_hand, deck, player_points
     while True:
         display_hand(player_hand)
@@ -98,10 +86,13 @@ def dealer_turn():
     """
     Dealer's turn in the Blackjack game.
     """
-    global dealer_hand, deck, dealer_points
-    while calculate_points(dealer_hand) < 17:
+    global dealer_hand, deck, dealer_points, player_points
+    while calculate_points(dealer_hand) < player_points + 1:
         deal_card(dealer_hand)
     dealer_points = calculate_points(dealer_hand)
+    if dealer_points > 21:
+        print(f"The dealer Busts. You won {bet_gold} gold. Congrats")
+        return
 
 def check_winner():
     """
@@ -113,7 +104,7 @@ def check_winner():
     elif dealer_points > player_points:
         print("Dealer wins.")
     else:
-        print("It's a tie.")
+        print()
 
 def load_player_data(file=PLAYER_DATA_FILE):
     """
@@ -210,16 +201,22 @@ def play_blackjack():
         player_turn()
         if player_points <= 21:
             dealer_turn()
-            display_hand(dealer_hand, is_dealer=True)
-            check_winner()
-            if player_points > dealer_points:
+            if dealer_points > 21:
+                print(f"You won {bet_gold} gold. Congrats")
                 player_data['Gold'] += bet_gold * 2  # Double the bet for winning
                 save_player_data(player_data)
-            elif player_points < dealer_points:
-                print(f"You lost {bet_gold} gold. Loser.")
-                save_player_data(player_data)
             else:
-                print("It's a tie. (The house always wins)")
+                display_hand(dealer_hand, is_dealer=True)
+                check_winner()
+                if player_points > dealer_points:
+                    print(f"You won {bet_gold} gold. Congrats")
+                    player_data['Gold'] += bet_gold * 2  # Double the bet for winning
+                    save_player_data(player_data)
+                elif player_points < dealer_points:
+                    print(f"You lost {bet_gold} gold. Loser.")
+                    save_player_data(player_data)
+                else:
+                    print("It's a tie. (The house always wins)")
         else:
             save_player_data(player_data, PLAYER_DATA_FILE)
     return Game.PvC()

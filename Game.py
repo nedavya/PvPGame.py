@@ -4,38 +4,14 @@ Title: Role system w_PVP
 Author: V3N0M
 Date: 27 May 2024
 """
+import os
+
 import Casino
 
 # --- NOTES --- #
-# Add a gold rush game on top of the gambling
 # Block tactic that reduces incoming damage(random) but you cant attack that turn (for predicting ultimates)
 # No healing, only offensive gameplay
 # Trash talk tactic
-# Critical = Black flash
-# Effects:
-# Sleep(lose turn)
-# Stun(cant attack)
-# Burn(Linger next round)
-# Confusion(Caused by Dark/ Martial: 20%-70% of damage lost)
-# Frozen(Cant Dodge)
-# --- passives --- #
-
-
-# --- x_PvC --- #
-'''
-Store all in a new file u create
-IF TIME: EXP
-Gold.
-Shop. 
-Inventory (equipment), weapon, armour, accesory(if status affects: potions)
-Random Events(effects)
-AI opponent with selectable difficulty(Stats multiplier) = 
-Easy: stats*0.8 | Medium: stats*1.1 | Hard: Stats*1.5 | Very Hard: Stats* 2.0 | Impossible: Stats*3.0 | Asian: Stats*5|
-NOTE: 
-IN IMPOSSIBLE And Asian: TRASH TALK is disabled
-In asian ITEMS are disabled
-'''
-
 # --- CODE --- #
 import w_PVP
 import x_PvC
@@ -124,9 +100,13 @@ def Add_Modify(file):
             character_data = rows[index]
             print("Enter new values (leave blank to keep existing values):")
             for key, value in character_data.items():
+                if key == 'Element':
+                    elements = read_elements(Elements)
+                    print(" | ".join(elements))
                 new_value = input(f"{key} [{value}]: ").strip()
                 if new_value:
                     character_data[key] = new_value
+
 
             with open(file, mode='w', newline='') as f:
                 writer = csv.DictWriter(f, fieldnames=reader.fieldnames)
@@ -282,11 +262,11 @@ def load_characters(File):
 # Outputs
 def Intro() -> None:
     print(rf'''{'\033[1m'}{'\033[0;34m'} __      __       .__                                
-/  \    /  \ ____ |  |   ____  ____   _____   ____   
-\   \/\/   _/ __ \|  | _/ ___\/  _ \ /     \_/ __ \  
- \        /\  ___/|  |_\  \__(  <_> |  Y Y  \  ___/  
-  \__/\  /  \___  |____/\___  \____/|__|_|  /\___  > 
-       \/       \/          \/            \/     \/{'\033[0m'}  ''')
+    /  \    /  \ ____ |  |   ____  ____   _____   ____   
+    \   \/\/   _/ __ \|  | _/ ___\/  _ \ /     \_/ __ \  
+     \        /\  ___/|  |_\  \__(  <_> |  Y Y  \  ___/  
+      \__/\  /  \___  |____/\___  \____/|__|_|  /\___  > 
+           \/       \/          \/            \/     \/{'\033[0m'}''')
     print(f"{'\033[1m'}{'\033[0;31m'}Please make sure to check out the instructions!{'\033[0m'}")
 def Instructions():
     print(rf'''{'\033[1m'}{'\033[0;31m'}______________   _____________ 
@@ -344,11 +324,11 @@ You are facing off alone against a random AI with the aim to defeat you.
 You can choose the AI's character or it will randomly choose(there is a 80% reward penalty if you choose the AI)
 There are 6 difficulties:
 1: EASY MODE (0.8)
-2: MEDIUM MODE (1.1)
-3: HARD MODE (1.5)
-4: VERY HARD MODE (2.0)
-5: IMPOSSIBLE MODE (3.0)
-6: ASIAN MODE (5.0)
+2: MEDIUM MODE (1.5)
+3: HARD MODE (2.0)
+4: VERY HARD MODE (3.0)
+5: IMPOSSIBLE MODE (5.0)
+6: ASIAN MODE (10.0)
 
 Each one increases the reward by its difficulty. 
 The default reward is:[50 gold x AI difficulty x randint(1,4) + 100 EXP x AI difficulty x randint(1,4)]{'\033[0m'}
@@ -357,6 +337,7 @@ The default reward is:[50 gold x AI difficulty x randint(1,4) + 100 EXP x AI dif
 There are 3 categories:[Weapon|Accessory|Armour]
 The armour grants health as a shield which increases the max hp of the player
 The accessory: can also do the same as an armour or a weapon or even do a unique function of MP[its 1-time use]
+The effects dont stack
 The weapon: increases damage all around
 It costs a different amount of Gold for each item in the shop{'\033[0m'}
 {'\033[4m'}MODE 3: Inventory{'\033[0m'}
@@ -397,6 +378,7 @@ if __name__ == '__main__':
     while True:
         Option = Options()
         Chosen(Option)
+        os.system('clear')
 
 
 

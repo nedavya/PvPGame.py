@@ -101,7 +101,7 @@ def display_characters_info(characters):
     for index in range(0, len(characters), 3):
         if index + 2 < len(characters):
             print(f"{index + 1}. {characters[index]['Character']}  |  {index + 2}. {characters[index + 1]['Character']}  |  {index + 3}. {characters[index + 2]['Character']}")
-        elif index + 2< len(characters):
+        elif index + 1 < len(characters):
             print(f"{index + 1}. {characters[index]['Character']}  |  {index + 2}. {characters[index + 1]['Character']}")
         else:
             print(f"{index + 1}. {characters[index]['Character']}")
@@ -134,7 +134,7 @@ def display_characters_info(characters):
 
     for index in selected_indices:
         character = characters[index]
-        print(f"Character {index + 1}: {character['Character']}")
+        print(f"\033[0mCharacter {index + 1}: {character['Character']}")
         print(f"Class: {character['Element']}")
         print(f"HP: |{health_bar}| [{character['HP']}]")
         print(f"Mana:|{Mana_bar}| [{character['MP']}] | {character['MP_Regain']} GAIN")
@@ -142,15 +142,15 @@ def display_characters_info(characters):
         print(f"{character['Spell_1']} | {character['Damage_1']} ATK | {character['MP_1']} MP")
         print(f"{character['Spell_2']} | {character['Damage_2']} ATK | {character['MP_2']} MP")
         print(
-            f"Domain Expansion: {character['Ultimate(Domain_Expansion)']} | {character['Damage_Ult']} ATK | {character['Rounds_Ult']} ROUND")
+            f"Domain Expansion: {character['Ultimate(Domain_Expansion)']} | {character['Damage_Ult']} ATK | {character['Rounds_Ult']} ROUND\033[0;35m")
         print()  # Add an empty line for better readability
         sleep(0.5)
 
     if choice != len(characters)+1:
         try:
-            redo = input("Would You like to view another character(Yes):")
+            redo = input("Would You like to view another character(Y):").upper()
             redo = str(redo)
-            if redo == "Yes":
+            if redo == "Y":
                 return display_characters_info(characters)
             else:
                 return None
