@@ -1,0 +1,28 @@
+Character,Element,HP,MP,Spell_1,Spell_2,Ultimate(Domain_Expansion),Damage_1,Damage_2,Damage_Ult,MP_1,MP_2,Rounds_Ult,MP_Regain
+Diablaze,Fire,220,150,Fireball,Inferno,Hellfire,55,100,250,20,30,4,25
+Katara,Water,220,150,Wave,Tidal Blast,Oceanic Heritage,50,95,240,20,30,4,25
+Yuno,Air,220,150,Wind slash,Typhoon,Omnipresent winds,55,100,245,20,30,4,25
+Toph,Earth,260,150,Rock rush,Earth Quake,Gias Wrath,45,90,230,20,30,4,20
+Zenitsu,Lightning,200,150,Thundercharge,Bolt o Volt,Storm Gods Arena,70,120,280,25,35,4,35
+Tengen Uzui,Sound,200,150,Echoing Doom,Sonic Wave,Symphony of Destruction,65,110,275,25,35,4,35
+EzDeath,Ice,200,150,Freeze,Glaze Spike,Eternal Winter,70,120,280,25,35,4,35
+Shinji,Gravity,220,150,Graviton Surge,Black Hole,Event Horizon,50,95,240,20,30,4,25
+Patriot,Gun,240,150,Trump Tower,Give me Oil,WHAT IS A KILOMETER,45,80,210,20,30,4,25
+Elon,Money,240,150,Slot Machine,Bankrupcy,Debt collector,45,80,210,20,30,4,25
+Manic Mike,Tren,1000,50,Bench Press,Tren Trance,Roid Rage,30,50,120,10,20,2,5
+N3m3sis,Code,100,100,Ddos,Hack,Game Master,50,100,250,25,35,2,25
+Dop Dop,BrainRot,100,100,Fanum Tax,Rizz Party,Sigma Activated,30,60,150,10,20,4,15
+Jordan Berret,LooksMaxx,100,100,Mog,Mew,Clones of Chico,30,60,150,10,20,4,15
+Polo,Don,100,100,conducir borracho,Comer obeso,Only in Ohio,30,60,150,10,20,4,15
+Tian Heng Shoe,Cultivate,100,100,Tai Chi,Sword Aura,Taoism,30,60,150,10,20,4,15
+Raj,Tech,100,100,Spice Attack,Herd of Cows,Mundian to Bach Ke,30,60,150,10,20,4,15
+Player,Aura,260,150,Respect,Dis Respect,Infinite Potential,60,110,270,20,30,4,25
+Tyrone,Outlawed,200,150,Steal,Hot wire,Prison Break,60,110,260,20,30,4,35
+Amigo,Tequila,240,150,Taco truck,Dame tu culo,Quinceanera,45,80,210,20,30,4,25
+Joker,Acrobatics,240,150,Circus Trick,Bamboozle,Last Laugh,45,80,210,20,30,4,25
+Ichigo,Bankai,220,150,Getsuga Tensho,Tensa Zangetsu,Senbonzakura Kageyoshi,75,130,300,25,35,4,35
+Baldwin,King,200,300,Sovereigns Will,Kings Wrath,Monarchs Embrace,100,200,300,50,100,2,25
+Eren,Titan,220,150,Hardened Fist,Foot Stomp,Rumbling,65,110,285,25,35,4,35
+Deku,One for All,220,150,Black Whip,All Out Punch,Echoes of Legacy,70,120,290,25,35,4,35
+Saitama,Fight,500,200,One Punch,Side Hops,Serious Punch,50,100,1000000000,30,45,7,15
+Healer,Gag,9999,1,Heal,Disengage,Sanctuary of Renewal,1,1,2,1,1,1,1

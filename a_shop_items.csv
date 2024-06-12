@@ -1,0 +1,5 @@
+Name,Type,Effect,Cost,Durability
+Iron Sword,Weapon,ATK 20%,100,10
+Steel Armour,Armour,SHIELD 10%,150,100
+Mana Potion,Accessory,MP 50,50,1
+Diamond Sword,Weapon,ATK 30%,200,25

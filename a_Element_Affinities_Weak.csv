@@ -1,0 +1,11 @@
+Element,Weak_1,Weak_2,Weak_3
+Hero,Fire,Martial,Dark
+Martial,Fire,Air,Ranged
+Air,Fire,Ranged,Special
+Earth,Martial,Hero,Air
+Water,Earth,Air,Martial
+Dark,Earth,Water,Hero
+Ranged,Earth,Water,Special
+Special,Water,Hero,Martial
+Fire,Water,Dark,Sigma
+Sigma,Dark,Special,Martial
